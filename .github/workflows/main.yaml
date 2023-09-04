@@ -2,7 +2,7 @@ on: [push]
 name: Linux_Container_Workflow
 
 jobs:
-    build-and-deploy:
+    build:
         runs-on: ubuntu-latest
         steps:
         # checkout the repo
@@ -22,6 +22,16 @@ jobs:
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/hellofiber:${{ github.sha }}
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/hellofiber:${{ github.sha }}
-
-    
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/hellofiber:${{ github.sha }}    
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v3
+        - name: executing remote ssh commands using password
+          uses: appleboy/ssh-action@v1.0.0
+          with:
+            host: ${{ secrets.VM_HOST }}
+            username: ${{ secrets.VM_USERNAME }}
+            password: ${{ secrets.VM_PASSWORD }}
+            script: |
+              docker-compose up -d
