@@ -1,7 +1,5 @@
 services:
   web:
-    build: .
+    image: "fiberhello.azurecr.io/hellofiber:latest"
     ports:
       - "80:80"
-  redis:
-    image: "fiberhello.azurecr.io/hellofiber:latest"
