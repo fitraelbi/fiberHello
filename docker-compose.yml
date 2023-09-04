@@ -1,5 +1,7 @@
+version: "3"
 services:
-  web:
-    image: "fiberhello.azurecr.io/hellofiber:latest"
-    ports:
-      - "80:80"
+    fiberhello:
+        container_name: fiber_hello
+        image: fiberhello.azurecr.io/hellofiber:latest
+        ports:
+            - "80:80"
