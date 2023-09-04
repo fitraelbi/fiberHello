@@ -1,8 +1,8 @@
 on: [push]
-name: Linux_Container_Workflow
+name: Traffic-Farm
 
 jobs:
-    build_and_deploy:
+    build:
         runs-on: ubuntu-latest
         steps:
         # checkout the repo
@@ -23,6 +23,13 @@ jobs:
         - run: |
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/hellofiber:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/hellofiber:${{ github.sha }} 
+    deploy:
+        runs-on: ubuntu-latest
+        need: build
+        steps:
+        # checkout the repo
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@main
         - name: executing remote ssh commands using password
           uses: appleboy/ssh-action@v1.0.0
           with:
@@ -31,5 +38,5 @@ jobs:
             password: ${{ secrets.VM_PASSWORD }}
             script: |
               cd /home/admin_tf/traffic-farm
-              docker-compose up -d   
+              sudo docker-compose up -d   
         
