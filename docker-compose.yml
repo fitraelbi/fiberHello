@@ -4,5 +4,5 @@ services:
         container_name: fiber_hello
         image: fiberhello.azurecr.io/hellofiber:<TAG_IMAGE_DOCKER>
         ports:
-            - "80:80"
+            - "0.0.0.0:80:80"
         network_mode: host
