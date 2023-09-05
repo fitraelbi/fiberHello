@@ -2,6 +2,7 @@ version: "3"
 services:
     fiberhello:
         container_name: fiber_hello
-        image: fiberhello.azurecr.io/hellofiber:latest
+        image: fiberhello.azurecr.io/hellofiber:<TAG_IMAGE_DOCKER>
         ports:
             - "80:80"
+        network_mode: host
